@@ -1,0 +1,104 @@
+.example {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  background-color: #fff;
+  color: #424242;
+  max-width: 960px;
+  padding: 16px;
+}
+
+.example code {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: #009688;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.example .background {
+  height: 240px;
+  // Путь к изображениям из SASS-файла всегда такой, как из папки css
+  background-image: url('../images/demo.jpg');
+  background-size: cover;
+  background-position: center;
+}
+.load-more {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.visually-hidden {
+  display: none;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(191, 243, 250);
+  margin: 0;
+  padding: 20px 0 20px 0;
+}
+
+button {
+  background-color: rgb(239, 234, 67);
+  color: rgb(50, 6, 160);
+  border: none;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  background-color: #dcb7cf;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+input {
+  margin-right: 5px;
+  width: 300px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.photo-card {
+  width: 300px;
+  background-color: rgb(215, 215, 215);
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  display: inline-grid;
+
+  :hover,
+  :focus {
+    background-color:rgb(224, 199, 199);
+    color: rgb(176, 160, 212);
+  }
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.info-item {
+  margin-right: 15px;
+}
+
+b {
+  margin-left: 7px;
+}
