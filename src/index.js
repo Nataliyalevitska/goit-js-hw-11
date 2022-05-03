@@ -12,7 +12,8 @@ let lightbox = null;
 
 const searchInput = e => {
   e.preventDefault();
-  refs.galleryDiv.innerHTML = '';
+  // refs.galleryDiv.innerHTML = '';
+  clearPage();
   if (!refs.input.value) {
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.',
@@ -21,6 +22,7 @@ const searchInput = e => {
     return;
   }
   page = 1;
+
   refs.loadMoreBtn.classList.remove('visually-hidden');
 
   const name = refs.input.value.trim();
@@ -31,11 +33,14 @@ const searchInput = e => {
         captionsData: 'alt',
         captionDelay: 250,
       });
+
       const maxPage = Math.ceil(data.totalHits / pageOption.maxImg);
+
       refs.loadMoreBtn.classList.remove('visually-hidden');
       Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
       if (page >= maxPage) {
         refs.loadMoreBtn.classList.add('visually-hidden');
+        smoothScroll();
       }
     })
     .catch(new Error());
@@ -49,13 +54,38 @@ const loadMore = e => {
       markupList(data.hits);
       lightbox.refresh();
       const maxPage = Math.ceil(data.totalHits / pageOption.maxImg);
+
       if (page >= maxPage) {
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
         refs.loadMoreBtn.classList.add('visually-hidden');
+        smoothScroll();
       }
     })
     .catch(new Error());
 };
+function clearPage() {
+  refs.galleryDiv.innerHTML = '';
+}
 
+function smoothScroll() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+  window.scrollBy({
+    top: cardHeight * 1,
+    behavior: 'smooth',
+  });
+}
+
+function handleScroll(e) {
+  let topHeight = document.documentElement.scrollTop;
+  let clHeight = document.documentElement.clientHeight;
+  let scrHeight = document.documentElement.scrollHeight;
+  if (Math.round(clHeight + topHeight) === scrHeight) {
+    loadMore();
+  }
+}
+
+document.addEventListener('scroll', handleScroll);
 refs.formSubmit.addEventListener('submit', searchInput);
-refs.loadMoreBtn.addEventListener('click', loadMore);
+refs.loadMoreBtn.addEventListener('click', loadMore, smoothScroll);
