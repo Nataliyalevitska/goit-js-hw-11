@@ -22,6 +22,23 @@
     </div>
     <button type="button" class ="load-more visually-hidden">Load more</button>
 
+
+<div id="page1">
+  <a href="#top" class="topLink">Top &#9757;</a>
+</div>
+
+     <script type="text/javascript">
+      $(document).ready(function () {
+        $('#menu').on('click', 'a', function (event) {
+          event.preventDefault();
+          var id = $(this).attr('href'),
+            top = $(id).offset().top;
+          $('body,html').animate({ scrollTop: top }, 1500);
+        });
+      });
+    </script>
+
+
     <script src="./index.js"></script>
   </body>
 </html>

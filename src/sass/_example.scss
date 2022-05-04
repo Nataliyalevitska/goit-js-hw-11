@@ -25,6 +25,11 @@
   background-size: cover;
   background-position: center;
 }
+ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 body{
   padding-bottom: 40px;
 }
@@ -115,4 +120,15 @@ background-size: cover;
 
 b {
   margin-left: 7px;
+}
+.topLink {
+  position: fixed;
+  bottom: 35px;
+  right: 20px;
+
+  font-family: inherit;
+  color: rgb(239, 234, 67);
+  font-size: 20px;
+  text-decoration: none;
+  
 }
