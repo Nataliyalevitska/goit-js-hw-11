@@ -3,11 +3,11 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import Notiflix from 'notiflix';
 import refs from './services/refs';
-import fetchPic from './services/fetchPic';
-import pageOption from './services/pageOption';
+import { fetchParams, fetchPic } from './services/fetchPic';
+// import pageOption from './services/pageOption';
 import markupList from './components/picMarkup';
+import $ from 'jquery';
 
-let page = 1;
 let lightbox = null;
 
 const searchInput = e => {
@@ -20,12 +20,12 @@ const searchInput = e => {
 
     return;
   }
-  page = 1;
 
+  fetchParams.page = 1;
   refs.loadMoreBtn.classList.remove('visually-hidden');
 
-  const name = refs.input.value.trim();
-  fetchPic(name, page)
+  fetchParams.q = refs.input.value.trim();
+  fetchPic(fetchParams)
     .then(data => {
       markupList(data.hits);
       lightbox = new SimpleLightbox('.gallery a', {
@@ -33,11 +33,11 @@ const searchInput = e => {
         captionDelay: 250,
       });
 
-      const maxPage = Math.ceil(data.totalHits / pageOption.maxImg);
+      const maxPage = Math.ceil(data.totalHits / fetchParams.per_page);
 
       refs.loadMoreBtn.classList.remove('visually-hidden');
       Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
-      if (page >= maxPage) {
+      if (fetchParams.page >= maxPage) {
         refs.loadMoreBtn.classList.add('visually-hidden') || smoothScroll();
       }
     })
@@ -45,15 +45,15 @@ const searchInput = e => {
 };
 
 const loadMore = e => {
-  page += 1;
-  const name = refs.input.value.trim();
-  fetchPic(name, page)
+  fetchParams.page += 1;
+  fetchParams.q = refs.input.value.trim();
+  fetchPic(fetchParams)
     .then(data => {
       markupList(data.hits);
       lightbox.refresh();
-      const maxPage = Math.ceil(data.totalHits / pageOption.maxImg);
+      const maxPage = Math.ceil(data.totalHits / fetchParams.per_page);
 
-      if (page >= maxPage) {
+      if (fetchParams.page >= maxPage) {
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
         refs.loadMoreBtn.classList.add('visually-hidden') || smoothScroll();
       }
@@ -84,6 +84,7 @@ document.addEventListener('scroll', handleScroll);
 refs.formSubmit.addEventListener('submit', searchInput);
 refs.loadMoreBtn.addEventListener('click', loadMore, smoothScroll);
 
+///////// скрол вгору //////////////
 class Pagescroll {
   constructor(id) {
     this.page = $(id);
@@ -105,3 +106,58 @@ class Pagescroll {
   }
 }
 const scroll = new Pagescroll('#page1');
+
+//////////////////// variant 2///////////////////////////
+// let page = 1;
+// let lightbox = null;
+
+// const searchInput = e => {
+//   e.preventDefault();
+//   refs.galleryDiv.innerHTML = '';
+//   if (!refs.input.value) {
+//     Notiflix.Notify.failure(
+//       'Sorry, there are no images matching your search query. Please try again.',
+//     );
+
+//     return;
+//   }
+//   page = 1;
+
+//   refs.loadMoreBtn.classList.remove('visually-hidden');
+
+//   const name = refs.input.value.trim();
+//   fetchPic(name, page)
+//     .then(data => {
+//       markupList(data.hits);
+//       lightbox = new SimpleLightbox('.gallery a', {
+//         captionsData: 'alt',
+//         captionDelay: 250,
+//       });
+
+//       const maxPage = Math.ceil(data.totalHits / pageOption.maxImg);
+
+//       refs.loadMoreBtn.classList.remove('visually-hidden');
+//       Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
+//       if (page >= maxPage) {
+//         refs.loadMoreBtn.classList.add('visually-hidden') || smoothScroll();
+//       }
+//     })
+//     .catch(new Error());
+// };
+
+// const loadMore = e => {
+//   page += 1;
+//   const name = refs.input.value.trim();
+//   fetchPic(name, page)
+//     .then(data => {
+//       markupList(data.hits);
+//       lightbox.refresh();
+//       const maxPage = Math.ceil(data.totalHits / pageOption.maxImg);
+
+//       if (page >= maxPage) {
+//         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+//         refs.loadMoreBtn.classList.add('visually-hidden') || smoothScroll();
+//       }
+//     })
+//     .catch(new Error());
+// };
