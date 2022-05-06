@@ -22,7 +22,7 @@ const searchInput = e => {
   }
 
   fetchParams.page = 1;
-  refs.loadMoreBtn.classList.remove('visually-hidden');
+  refs.loadMoreBtn.classList.add('visually-hidden');
 
   fetchParams.q = refs.input.value.trim();
   fetchPic(fetchParams)
